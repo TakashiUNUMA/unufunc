@@ -2,8 +2,9 @@
 #
 # unufunc.sh
 #
-# original script coded by Takashi Unuma, Kyoto Univ.
-# Last modified: 2014/10/05
+# original script was coded by Takashi Unuma, Kyoto Univ.
+#                  modified by Takashi Unuma, JMA
+# last modified: 16th August, 2016
 #
 
 #ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -35,6 +36,52 @@ change_time () {
 	#
 	# Output modified TIME
 	echo ${UTIME} ${INT} | awk '{print $1'${FLAG}'$2}' | awk '{print strftime("%Y%m%d%H%M",$1)}'
+    fi
+}
+
+
+#ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+# mm2MMM
+#ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+mm2MMM () {
+    #
+    if test $# -lt 1 ; then
+	echo "USAGE: mm2MMM mm"
+	echo "   ex) mm2MMM 05"
+    else
+	#
+	mm=$1
+	#
+	if test ${mm} = "01" ; then
+	    MMM=JAN
+	elif test ${mm} = "02" ; then
+	    MMM=FEB
+	elif test ${mm} = "03" ; then
+	    MMM=MAR
+	elif test ${mm} = "04" ; then
+	    MMM=APR
+	elif test ${mm} = "05" ; then
+	    MMM=MAY
+	elif test ${mm} = "06" ; then
+	    MMM=JUN
+	elif test ${mm} = "07" ; then
+	    MMM=JUL
+	elif test ${mm} = "08" ; then
+	    MMM=AUG
+	elif test ${mm} = "09" ; then
+	    MMM=SEP
+	elif test ${mm} = "10" ; then
+	    MMM=OCT
+	elif test ${mm} = "11" ; then
+	    MMM=NOV
+	elif test ${mm} = "12" ; then
+	    MMM=DEC
+	else
+	    echo "Unrecognized month!!"
+	fi
+	#
+	echo "${MMM}"
+	#
     fi
 }
 
@@ -86,44 +133,17 @@ eps2multipdf () {
 
 
 #ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-# search_sentence
+# preset_script
 #ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-search_sentence () {
+preset_script () {
     #
-    if test $# -lt 1 ; then
-	echo "USAGE: search_sentence [word]"
-    else
-	#
-	INWORD=$1
-	DIR=/home/unuma/dropbox/Dropbox/file/Reference
-	#
-	for INFILE in $(ls ${DIR}/*.pdf) ; do
-	    echo "-- $(basename ${INFILE}) --"
-	    pdftotext -q ${INFILE} - | grep --color=auto "${INWORD}"
-	    echo "---"
-	done
-    fi
-}
-
-
-#ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-# kuins_proxy
-#ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-kuins_proxy () {
+    nowtime=`date`
+    echo "#!/bin/bash"
+    echo "#"
+    echo "# "
+    echo "#"
+    echo "# original script was coded by Takashi Unuma, Japan Meteorological Agency"
+    echo "# last modified: ${nowtime}"
+    echo "#"
     #
-    export http_proxy=http://proxy.kuins.net:8080/
-    export https_proxy=http://proxy.kuins.net:8080/
-    export ftp_proxy=http://proxy.kuins.net:8080/
 }
-
-
-#ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-# unset_proxy
-#ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
-unset_proxy () {
-    #
-    unset http_proxy
-    unset https_proxy
-    unset ftp_proxy
-}
-
