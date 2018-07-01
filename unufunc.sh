@@ -2,10 +2,10 @@
 #
 # unufunc.sh
 #
-# original script was coded by Takashi Unuma, Kyoto Univ.
-#                  modified by Takashi Unuma, JMA
+# original script was coded by Takashi Unuma, Kyoto University
+#                  modified by Takashi Unuma, Japan Meteorological Agency
 #
-# last modified: 23rd February, 2018
+# last modified: March 7th, 2018
 #
 
 #ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -96,10 +96,11 @@ modify_eps () {
 	echo "USAGE: modify_eps [EPS file(s)]"
     else
 	for file in $* ; do
-	    bbinfo1=$(gs -q -dNOPAUSE -dBATCH -sDEVICE=bbox ${file} 2>&1 | sed -e "s/\%/\\\%/g" -e "s/\:/\\\:/g" -e "s/\./\\\./g" -e "s/[[:blank:]]/\\\ /g" | awk 'NR==1{printf $0}')
-	    bbinfo2=$(gs -q -dNOPAUSE -dBATCH -sDEVICE=bbox ${file} 2>&1 | sed -e "s/\%/\\\%/g" -e "s/\:/\\\:/g" -e "s/\./\\\./g" -e "s/[[:blank:]]/\\\ /g" | awk 'NR==2{printf $0}')
+	    #bbinfo1=$(gs -q -dNOPAUSE -dBATCH -sDEVICE=bbox ${file} 2>&1 | sed -e "s/\%/\\\%/g" -e "s/\:/\\\:/g" -e "s/\./\\\./g" -e "s/[[:blank:]]/\\\ /g" | awk 'NR==1{printf $0}')
+	    #bbinfo2=$(gs -q -dNOPAUSE -dBATCH -sDEVICE=bbox ${file} 2>&1 | sed -e "s/\%/\\\%/g" -e "s/\:/\\\:/g" -e "s/\./\\\./g" -e "s/[[:blank:]]/\\\ /g" | awk 'NR==2{printf $0}')
 	    title=$(echo "%%Title: ${file}" | sed -e "s/\%/\\\%/g" -e "s/\:/\\\:/g" -e "s/\./\\\./g" -e "s/[[:blank:]]/\\\ /g")
-	    sed -i -e "2c${bbinfo1}" -e "3c${bbinfo2}" -e "4c${title}" ${file}
+	    #sed -i -e "2c${bbinfo1}" -e "3c${bbinfo2}" -e "4c${title}" ${file}
+	    sed -i -e "4c${title}" ${file}
 	done
     fi
 }
